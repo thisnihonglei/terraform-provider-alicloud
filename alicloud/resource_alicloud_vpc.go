@@ -200,6 +200,7 @@ func resourceAlicloudVpcRead(d *schema.ResourceData, meta interface{}) error {
 	if v, ok := object["Tags"].(map[string]interface{}); ok {
 		d.Set("tags", tagsToMap(v["Tag"]))
 	}
+	d.Set("resource_group_id", object["ResourceGroupId"])
 	d.Set("user_cidrs", object["UserCidrs"].(map[string]interface{})["UserCidr"])
 	d.Set("vpc_name", object["VpcName"])
 	d.Set("name", object["VpcName"])
