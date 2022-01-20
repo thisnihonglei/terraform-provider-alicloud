@@ -160,6 +160,10 @@ func resourceAlicloudCenTransitRouterRouteEntryRead(d *schema.ResourceData, meta
 func resourceAlicloudCenTransitRouterRouteEntryUpdate(d *schema.ResourceData, meta interface{}) error {
 	client := meta.(*connectivity.AliyunClient)
 	cbnService := CbnService{client}
+	conn, err := client.NewCbnClient()
+	if err != nil {
+		return WrapError(err)
+	}
 	var response map[string]interface{}
 	parts, err1 := ParseResourceId(d.Id(), 2)
 	if err1 != nil {
@@ -182,10 +186,6 @@ func resourceAlicloudCenTransitRouterRouteEntryUpdate(d *schema.ResourceData, me
 			request["DryRun"] = d.Get("dry_run")
 		}
 		action := "UpdateTransitRouterRouteEntry"
-		conn, err := client.NewCbnClient()
-		if err != nil {
-			return WrapError(err)
-		}
 		request["ClientToken"] = buildClientToken("UpdateTransitRouterRouteEntry")
 		runtime := util.RuntimeOptions{}
 		runtime.SetAutoretry(true)
